@@ -1,0 +1,12 @@
+{
+  "scripts": [
+    {
+      "tag": "node",
+      "scripts": ["greet.cjs"]
+    },
+    {
+      "tag": "py",
+      "scripts": ["add.py"]
+    }
+  ]
+}

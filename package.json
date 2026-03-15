@@ -1,0 +1,19 @@
+{
+  "name": "metacall-mcp-prototype",
+  "version": "1.0.0",
+  "description": "A beginner-friendly MCP server integrated with MetaCall for multi-language function execution",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "metacall dist/server.js",
+    "dev": "npm run build && metacall dist/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "metacall": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
