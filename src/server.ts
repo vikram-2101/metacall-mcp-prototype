@@ -11,6 +11,9 @@ import { loadFunctions } from "./metacall/runtime.js";
 import { registerContextTools } from "./tools/contextTools.js";
 import { registerFunctionTools } from "./tools/functionTools.js";
 
+import { registerInspectTool } from './tools/inspectTools.js';
+import { inspectFunctions } from './metacall/runtime.js'
+
 async function main() {
 
   console.error("[Server] Starting MetaCall MCP Server...");
@@ -31,6 +34,11 @@ async function main() {
   // Register MCP tools
   registerContextTools(server);
   registerFunctionTools(server);
+
+  // After MetaCall loads functions, add:
+registerInspectTool(server);
+
+const loadedNames = inspectFunctions().map(f => f.name);
 
   console.error("[Server] Tools registered: set_context, get_context, call_function");
 

@@ -6,6 +6,8 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { loadFunctions } from "./metacall/runtime.js";
 import { registerContextTools } from "./tools/contextTools.js";
 import { registerFunctionTools } from "./tools/functionTools.js";
+import { registerInspectTool } from './tools/inspectTools.js';
+import { inspectFunctions } from './metacall/runtime.js';
 async function main() {
     console.error("[Server] Starting MetaCall MCP Server...");
     const server = new McpServer({
@@ -23,6 +25,12 @@ async function main() {
     // Register MCP tools
     registerContextTools(server);
     registerFunctionTools(server);
+    // After MetaCall loads functions, add:
+    registerInspectTool(server);
+    // When registering call_function, make the description dynamic:
+    const loadedNames = inspectFunctions().map(f => f.name);
+    // In your existing call_function registration, update description to:
+    // `Call a MetaCall function. Loaded functions: ${loadedNames.join(', ')}. Context is auto-injected.`
     console.error("[Server] Tools registered: set_context, get_context, call_function");
     const transport = new StdioServerTransport();
     await server.connect(transport);

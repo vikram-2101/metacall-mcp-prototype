@@ -6,7 +6,7 @@
     },
     {
       "tag": "py",
-      "scripts": ["add.py"]
+      "scripts": ["add.py","multiply.py"]
     }
   ]
 }
