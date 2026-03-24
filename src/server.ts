@@ -18,6 +18,7 @@ async function main() {
 
   console.error("[Server] Starting MetaCall MCP Server...");
 
+  
   const server = new McpServer({
     name: "metacall-mcp-server",
     version: "1.0.0",

@@ -24,7 +24,7 @@ export function registerFunctionTools(server: McpServer): void {
 
       const argsWithContext = [...args, ctx];
 
-      console.log(`[Tool] call_function: ${func}`);
+      console.error(`[Tool] call_function: ${func}`);
 
       try {
         const result = await callFunction(func, argsWithContext);

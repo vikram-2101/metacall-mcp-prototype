@@ -1,2 +1,2 @@
 def multiply(a: int, b: int, ctx=None) -> int:
-    return a * b
+    return int(a) * int(b)

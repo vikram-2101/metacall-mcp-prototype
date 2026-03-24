@@ -27,10 +27,7 @@ async function main() {
     registerFunctionTools(server);
     // After MetaCall loads functions, add:
     registerInspectTool(server);
-    // When registering call_function, make the description dynamic:
     const loadedNames = inspectFunctions().map(f => f.name);
-    // In your existing call_function registration, update description to:
-    // `Call a MetaCall function. Loaded functions: ${loadedNames.join(', ')}. Context is auto-injected.`
     console.error("[Server] Tools registered: set_context, get_context, call_function");
     const transport = new StdioServerTransport();
     await server.connect(transport);

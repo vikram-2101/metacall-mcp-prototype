@@ -1,4 +1,15 @@
-
+import fs from 'fs';
+// Suppress MetaCall's stdout banner — MCP requires clean stdout
+const devNull = fs.openSync('/dev/null', 'w');
+const originalStdoutWrite = process.stdout.write.bind(process.stdout);
+process.stdout.write = (chunk: any, ...args: any[]) => {
+  // Allow only JSON (MCP messages), suppress everything else
+  const str = chunk.toString();
+  if (str.trimStart().startsWith('{') || str.trimStart().startsWith('[')) {
+    return originalStdoutWrite(chunk, ...args);
+  }
+  return true; // silently discard non-JSON stdout
+};
 import { createRequire } from "module";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -21,7 +32,7 @@ const raw = require("metacall");
 
 console.error("[MetaCall] Package exports:", JSON.stringify(Object.keys(raw ?? {})));
 
-import fs from 'fs';
+
 
 const api = (raw?.metacall_load_from_file)
   ? raw
@@ -43,14 +54,14 @@ export function loadFunctions(): void {
   const configPath = path.resolve(__dirname, '../../metacall.json');
   const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
-  console.log("MetaCall loading functions from: ", functionsDir);
+  console.error("MetaCall loading functions from: ", functionsDir);
   for (const loader of config.scripts) {
     const tag: string = loader.tag;
     const files: string[] = loader.scripts.map((f: string) =>
       path.join(functionsDir, f)
     );
     metacall_load_from_file(tag, files);
-    console.log(`[MetaCall] Loaded ${loader.scripts.join(", ")} (${tag})`);
+    console.error(`[MetaCall] Loaded ${loader.scripts.join(", ")} (${tag})`);
   }
 }
 
@@ -58,9 +69,9 @@ export function loadFunctions(): void {
 // Calling a MetaCall function by name with the given arguments.
 
 export async function callFunction(name: string, args: any[]): Promise<any> {
-  console.log(`[MetaCall] Calling function: ${name}`);
+  console.error(`[MetaCall] Calling function: ${name}`);
   const result = await metacall(name, ...args);
-  console.log(`[MetaCall] Result from ${name}`);
+  console.error(`[MetaCall] Result from ${name}`);
   return result;
 }
 

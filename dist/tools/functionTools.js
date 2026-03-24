@@ -10,7 +10,7 @@ export function registerFunctionTools(server) {
     }, async ({ func, args }) => {
         const ctx = getAllContext();
         const argsWithContext = [...args, ctx];
-        console.log(`[Tool] call_function: ${func}`);
+        console.error(`[Tool] call_function: ${func}`);
         try {
             const result = await callFunction(func, argsWithContext);
             return {
